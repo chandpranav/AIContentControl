@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Manipulation Guide</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        input, button { margin: 10px; padding: 10px; width: 80%; max-width: 400px; }
+        #response { margin-top: 20px; padding: 20px; border: 1px solid #ccc; background: #f9f9f9; text-align: left; }
+    </style>
+</head>
+<body>
+
+    <h2>Instagram Recommendation Manipulation</h2>
+    <p>Enter your current and desired Instagram interest:</p>
+
+    <input type="text" id="userInterest" placeholder="Current interest (e.g., Tech Products)">
+    <input type="text" id="targetInterest" placeholder="Target interest (e.g., Traveling the Mountains)">
+    <button onclick="getStrategy()">Get Strategy</button>
+
+    <div id="response"></div>
+
+    <script>
+        async function getStrategy() {
+            const userInterest = document.getElementById("userInterest").value;
+            const targetInterest = document.getElementById("targetInterest").value;
+
+            if (!userInterest || !targetInterest) {
+                alert("Please enter both interests!");
+                return;
+            }
+
+            document.getElementById("response").innerHTML = "Generating strategy...";
+
+            try {
+                const res = await fetch("http://localhost:5000/get-strategy", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userInterest, targetInterest })
+                });
+
+                const data = await res.json();
+                document.getElementById("response").innerHTML = `<pre>${data.strategy}</pre>`;
+            } catch (error) {
+                document.getElementById("response").innerHTML = "Error fetching strategy.";
+            }
+        }
+    </script>
+
+</body>
+</html>
