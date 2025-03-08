@@ -1,22 +1,32 @@
 {
-  "name": "v1",
+  "name": "AIContentControl",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "@huggingface/hub": "^1.0.0",
+    "AIContentControl": "file:",
     "axios": "^1.7.9",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "openai": "^4.81.0",
-    "v1": "file:"
-  }
+    "nodemon": "^3.1.9",
+    "openai": "^4.81.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chandpranav/AIContentControl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chandpranav/AIContentControl/issues"
+  },
+  "homepage": "https://github.com/chandpranav/AIContentControl#readme",
+  "description": ""
 }
