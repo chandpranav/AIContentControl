@@ -1,0 +1,851 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
+function LandingPage() {
+  // State to handle hover effects
+  const [isLogoHovered, setIsLogoHovered] = useState(false);
+  const [hoveredButton, setHoveredButton] = useState(null);
+  
+  // State for background animation
+  const [scrollPosition, setScrollPosition] = useState(0);
+  // State for features section
+  const [activeFeature, setActiveFeature] = useState(0);
+
+  // Handle scroll for parallax effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // Auto-rotate through features
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveFeature((prev) => (prev + 1) % features.length);
+    }, 4000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Features data
+  const features = [
+    {
+      title: "Personalized Recommendations",
+      description: "Get AI-powered suggestions tailored to your specific interests and goals."
+    },
+    {
+      title: "Smart Feed Curation",
+      description: "Gradually transform your social media experience with strategic engagement patterns."
+    },
+    {
+      title: "Cross-Platform Support",
+      description: "Works with Instagram, Facebook, YouTube, and more platforms seamlessly."
+    }
+  ];
+
+  // Platforms supported
+  const platforms = ['Instagram', 'Facebook', 'YouTube'];
+
+  return (
+    <div style={styles.container}>
+      {/* Animated background elements */}
+      <div style={styles.backgroundGradient} />
+      <div 
+        className="moving-gradient" 
+        style={{
+          ...styles.movingGradient,
+          transform: `translateY(${scrollPosition * 0.2}px)`,
+        }} 
+      />
+      
+      {/* Top Navigation */}
+      <nav style={styles.navbar}>
+        <div
+          style={
+            isLogoHovered
+              ? { ...styles.logoContainer, ...styles.logoContainerHover }
+              : styles.logoContainer
+          }
+          onMouseEnter={() => setIsLogoHovered(true)}
+          onMouseLeave={() => setIsLogoHovered(false)}
+        >
+          <img
+            src="/images/aicontrolmedia.png"
+            alt="AI Control Media logo"
+            style={styles.logoImage}
+          />
+        </div>
+
+        <div style={styles.navLinks}>
+          <a href="#features" style={styles.navItem}>Features</a>
+          <a href="#platforms" style={styles.navItem}>Platforms</a>
+          <a href="#how-it-works" style={styles.navItem}>How It Works</a>
+        </div>
+
+        <div style={styles.navActions}>
+          <Link 
+            to="/signin" 
+            style={styles.navLink}
+            onMouseEnter={() => setHoveredButton('signin')}
+            onMouseLeave={() => setHoveredButton(null)}
+          >
+            Sign in 
+            <span style={{
+              ...styles.navArrow,
+              transform: hoveredButton === 'signin' ? 'translateX(3px)' : 'translateX(0)',
+            }}>→</span>
+          </Link>
+          <Link 
+            to="/signup" 
+            style={{...styles.navLink, ...styles.signUpButton}}
+            onMouseEnter={() => setHoveredButton('signup')}
+            onMouseLeave={() => setHoveredButton(null)}
+          >
+            Sign up 
+            <span style={{
+              ...styles.navArrow,
+              transform: hoveredButton === 'signup' ? 'translateX(3px)' : 'translateX(0)',
+            }}>→</span>
+          </Link>
+        </div>
+      </nav>
+
+      {/* Hero Content */}
+      <div style={styles.heroSection}>
+        <div style={styles.heroContent}>
+          <h1 style={styles.title}>Transform Your <span style={styles.highlight}>Social Media</span> Experience</h1>
+          <div style={styles.glowBar}></div>
+          <p style={styles.subtitle}>
+            Get AI-powered recommendations to curate your perfect social media experience. 
+            Select your platform, describe your current and desired content, 
+            and let AI guide your transformation.
+          </p>
+
+          {/* Primary CTA Buttons */}
+          <div style={styles.buttonRow}>
+            <Link 
+              to="/signup" 
+              style={styles.primaryButton}
+              onMouseEnter={() => setHoveredButton('primary')}
+              onMouseLeave={() => setHoveredButton(null)}
+            >
+              Get Started 
+              <span style={{
+                ...styles.buttonArrow,
+                transform: hoveredButton === 'primary' ? 'translateX(5px)' : 'translateX(0)',
+              }}>→</span>
+            </Link>
+            <Link 
+              to="/demo" 
+              style={styles.secondaryButton}
+              onMouseEnter={() => setHoveredButton('secondary')}
+              onMouseLeave={() => setHoveredButton(null)}
+            >
+              Watch Demo
+              <span style={{
+                ...styles.buttonArrow,
+                transform: hoveredButton === 'secondary' ? 'translateX(5px)' : 'translateX(0)',
+              }}>→</span>
+            </Link>
+          </div>
+        </div>
+        
+        {/* Mock display of the application */}
+        <div style={styles.mockupContainer}>
+          <div style={styles.mockupFrame}>
+            <div style={styles.mockupHeader}>
+              <div style={styles.mockupDot}></div>
+              <div style={styles.mockupDot}></div>
+              <div style={styles.mockupDot}></div>
+            </div>
+            <div style={styles.mockupContent}>
+              <div style={styles.mockupPlatformSelector}>
+                <div style={styles.mockupLabel}>Platform</div>
+                <div style={styles.mockupSelect}>Instagram</div>
+              </div>
+              <div style={styles.mockupInputGroup}>
+                <div style={styles.mockupLabel}>Current Feed Content</div>
+                <div style={styles.mockupInput}>Gaming highlights, memes</div>
+              </div>
+              <div style={styles.mockupInputGroup}>
+                <div style={styles.mockupLabel}>Desired Feed Content</div>
+                <div style={styles.mockupInput}>Fitness, productivity tips</div>
+              </div>
+              <div style={styles.mockupButton}>Get Recommendations</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Features Section */}
+      <div id="features" style={styles.featuresSection}>
+        <h2 style={styles.sectionTitle}>Key Features</h2>
+        <div style={styles.featuresContainer}>
+          {features.map((feature, index) => (
+            <div 
+              key={index} 
+              style={{
+                ...styles.featureCard,
+                opacity: activeFeature === index ? 1 : 0.7,
+                transform: activeFeature === index ? 'scale(1.05)' : 'scale(1)',
+                boxShadow: activeFeature === index ? 
+                  '0 10px 30px rgba(0, 0, 0, 0.15), 0 0 20px rgba(155, 92, 255, 0.2)' : 
+                  '0 5px 15px rgba(0, 0, 0, 0.1), 0 0 10px rgba(155, 92, 255, 0.1)'
+              }}
+              onClick={() => setActiveFeature(index)}
+            >
+              <div style={styles.featureIcon}>
+                {index === 0 && '✨'}
+                {index === 1 && '🔄'}
+                {index === 2 && '🌐'}
+              </div>
+              <h3 style={styles.featureTitle}>{feature.title}</h3>
+              <p style={styles.featureDescription}>{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* Platforms Section */}
+      <div id="platforms" style={styles.platformsSection}>
+        <h2 style={styles.sectionTitle}>Supported Platforms</h2>
+        <div style={styles.platformsGrid}>
+          {platforms.map((platform, index) => (
+            <div key={index} style={styles.platformCard}>
+              <div style={styles.platformIcon}>{platform.charAt(0)}</div>
+              <span style={styles.platformName}>{platform}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* How It Works Section */}
+      <div id="how-it-works" style={styles.howItWorksSection}>
+        <h2 style={styles.sectionTitle}>How It Works</h2>
+        <div style={styles.stepsContainer}>
+          <div style={styles.step}>
+            <div style={styles.stepNumber}>1</div>
+            <h3 style={styles.stepTitle}>Select Your Platform</h3>
+            <p style={styles.stepDescription}>Choose the social media platform you want to transform.</p>
+          </div>
+          <div style={styles.stepDivider}></div>
+          <div style={styles.step}>
+            <div style={styles.stepNumber}>2</div>
+            <h3 style={styles.stepTitle}>Describe Your Content</h3>
+            <p style={styles.stepDescription}>Tell us what you currently see and what you'd prefer to see.</p>
+          </div>
+          <div style={styles.stepDivider}></div>
+          <div style={styles.step}>
+            <div style={styles.stepNumber}>3</div>
+            <h3 style={styles.stepTitle}>Get AI Recommendations</h3>
+            <p style={styles.stepDescription}>Receive personalized strategies to reshape your feed.</p>
+          </div>
+        </div>
+        <div style={styles.ctaContainer}>
+          <Link to="/signup" style={styles.ctaButton}>
+            Start Your Transformation
+            <span style={styles.buttonArrow}>→</span>
+          </Link>
+        </div>
+      </div>
+      
+      {/* Footer */}
+      <footer style={styles.footer}>
+        <div style={styles.footerContent}>
+          <div style={styles.footerLogo}>
+            <img
+              src="/images/aicontrolmedia.png"
+              alt="AI Control Media logo"
+              style={styles.footerLogoImage}
+            />
+            <p style={styles.footerTagline}>Transform your social media experience</p>
+          </div>
+          
+          <div style={styles.footerLinks}>
+            <div style={styles.footerColumn}>
+              <h4 style={styles.footerColumnTitle}>Product</h4>
+              <a href="#features" style={styles.footerLink}>Features</a>
+              <a href="#platforms" style={styles.footerLink}>Platforms</a>
+              <a href="#how-it-works" style={styles.footerLink}>How it Works</a>
+            </div>
+            
+            <div style={styles.footerColumn}>
+              <h4 style={styles.footerColumnTitle}>Company</h4>
+              <a href="/about" style={styles.footerLink}>About Us</a>
+              <a href="/contact" style={styles.footerLink}>Contact</a>
+              <a href="/careers" style={styles.footerLink}>Careers</a>
+            </div>
+            
+            <div style={styles.footerColumn}>
+              <h4 style={styles.footerColumnTitle}>Resources</h4>
+              <a href="/blog" style={styles.footerLink}>Blog</a>
+              <a href="/support" style={styles.footerLink}>Support</a>
+              <a href="/privacy" style={styles.footerLink}>Privacy Policy</a>
+            </div>
+          </div>
+        </div>
+        
+        <div style={styles.footerBottom}>
+          <p style={styles.copyright}>© 2025 AI Control Media. All rights reserved.</p>
+          <div style={styles.socialLinks}>
+            <a href="#" style={styles.socialLink}>FB</a>
+            <a href="#" style={styles.socialLink}>TW</a>
+            <a href="#" style={styles.socialLink}>IG</a>
+            <a href="#" style={styles.socialLink}>LI</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+// Enhanced styles
+const styles = {
+  container: {
+    minHeight: '100vh',
+    position: 'relative',
+    color: '#ffffff',
+    fontFamily: "'Poppins', sans-serif",
+    overflow: 'hidden',
+  },
+  backgroundGradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)',
+    zIndex: -3,
+  },
+  movingGradient: {
+    position: 'absolute',
+    top: '-50%',
+    left: '-20%',
+    width: '140%',
+    height: '200%',
+    background: 'radial-gradient(ellipse at center, rgba(155, 92, 255, 0.4) 0%, rgba(155, 92, 255, 0) 70%)',
+    zIndex: -1,
+    transition: 'transform 0.3s ease-out',
+  },
+  navbar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '1.5rem 2.5rem',
+    position: 'relative',
+    zIndex: 1,
+  },
+  logoContainer: {
+    backgroundColor: 'rgba(240, 240, 240, 0.9)',
+    padding: '0.1rem 0.1rem',
+    borderRadius: '5px',
+    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2), 0 0 15px rgba(155, 92, 255, 0.3)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'all 0.3s ease',
+  },
+  logoContainerHover: {
+    transform: 'translateY(-2px) scale(1.02)',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(155, 92, 255, 0.5)',
+  },
+  logoImage: {
+    height: '52px',
+    width: 'auto',
+  },
+  navLinks: {
+    display: 'flex',
+    gap: '2rem',
+  },
+  navItem: {
+    color: '#fff',
+    textDecoration: 'none',
+    fontWeight: '500',
+    position: 'relative',
+    paddingBottom: '5px',
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      color: '#9b5cff',
+    },
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      width: '0%',
+      height: '2px',
+      backgroundColor: '#9b5cff',
+      transition: 'width 0.3s ease',
+    },
+    '&:hover:after': {
+      width: '100%',
+    },
+  },
+  navActions: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+  },
+  navLink: {
+    textDecoration: 'none',
+    color: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    padding: '0.6rem 1.2rem',
+    borderRadius: '6px',
+    fontWeight: '500',
+    letterSpacing: '0.5px',
+    display: 'flex',
+    alignItems: 'center',
+    transition: 'all 0.2s ease',
+    backdropFilter: 'blur(5px)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.15)',
+      transform: 'translateY(-2px)',
+    },
+  },
+  signUpButton: {
+    backgroundColor: 'rgba(155, 92, 255, 0.2)',
+    border: '1px solid rgba(155, 92, 255, 0.4)',
+    boxShadow: '0 2px 10px rgba(155, 92, 255, 0.2)',
+  },
+  navArrow: {
+    marginLeft: '5px',
+    fontWeight: 'bold',
+    transition: 'transform 0.2s ease',
+  },
+  heroSection: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '4rem 2.5rem',
+    maxWidth: '1200px',
+    margin: '0 auto',
+  },
+  heroContent: {
+    maxWidth: '600px',
+    padding: '2rem',
+    backdropFilter: 'blur(10px)',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    borderRadius: '16px',
+    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(155, 92, 255, 0.2)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    position: 'relative',
+    zIndex: 1,
+  },
+  title: {
+    fontSize: '3.2rem',
+    fontWeight: '700',
+    marginBottom: '1rem',
+    lineHeight: '1.2',
+  },
+  highlight: {
+    background: 'linear-gradient(to right, #ffffff, #9b5cff)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    textShadow: '0 2px 10px rgba(155, 92, 255, 0.3)',
+  },
+  glowBar: {
+    height: '3px',
+    width: '80px',
+    margin: '0 0 2rem 0',
+    background: 'linear-gradient(to right, rgba(155, 92, 255, 0.7), rgba(255, 255, 255, 0.9))',
+    borderRadius: '3px',
+    boxShadow: '0 0 10px rgba(155, 92, 255, 0.7)',
+  },
+  subtitle: {
+    fontSize: '1.2rem',
+    lineHeight: '1.8',
+    marginBottom: '2.5rem',
+    color: 'rgba(255, 255, 255, 0.9)',
+    fontWeight: '300',
+    letterSpacing: '0.3px',
+  },
+  buttonRow: {
+    display: 'flex',
+    gap: '1.5rem',
+  },
+  primaryButton: {
+    textDecoration: 'none',
+    color: '#121212',
+    backgroundColor: '#ffffff',
+    padding: '0.9rem 2rem',
+    borderRadius: '8px',
+    fontWeight: '600',
+    letterSpacing: '0.5px',
+    display: 'flex',
+    alignItems: 'center',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(155, 92, 255, 0.3)',
+    transition: 'all 0.3s ease',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    position: 'relative',
+    overflow: 'hidden',
+    '&:hover': {
+      transform: 'translateY(-3px)',
+      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25), 0 0 25px rgba(155, 92, 255, 0.4)',
+      backgroundColor: '#f8f8f8',
+    },
+  },
+  secondaryButton: {
+    textDecoration: 'none',
+    color: '#ffffff',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    padding: '0.9rem 2rem',
+    borderRadius: '8px',
+    fontWeight: '600',
+    letterSpacing: '0.5px',
+    display: 'flex',
+    alignItems: 'center',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+    transition: 'all 0.3s ease',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    backdropFilter: 'blur(8px)',
+    '&:hover': {
+      transform: 'translateY(-3px)',
+      backgroundColor: 'rgba(255, 255, 255, 0.15)',
+      borderColor: 'rgba(255, 255, 255, 0.3)',
+    },
+  },
+  buttonArrow: {
+    marginLeft: '8px',
+    fontWeight: 'bold',
+    transition: 'transform 0.2s ease',
+  },
+  mockupContainer: {
+    position: 'relative',
+    flex: '0 0 40%',
+  },
+  mockupFrame: {
+    backgroundColor: 'rgba(30, 30, 40, 0.8)',
+    borderRadius: '12px',
+    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3), 0 0 80px rgba(155, 92, 255, 0.2)',
+    overflow: 'hidden',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    width: '100%',
+    maxWidth: '400px',
+  },
+  mockupHeader: {
+    backgroundColor: 'rgba(20, 20, 30, 0.9)',
+    padding: '0.8rem',
+    display: 'flex',
+    gap: '6px',
+  },
+  mockupDot: {
+    width: '12px',
+    height: '12px',
+    borderRadius: '50%',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+  },
+  mockupContent: {
+    padding: '1.5rem',
+  },
+  mockupPlatformSelector: {
+    marginBottom: '1.5rem',
+  },
+  mockupLabel: {
+    fontSize: '0.8rem',
+    color: 'rgba(255, 255, 255, 0.6)',
+    marginBottom: '0.5rem',
+  },
+  mockupSelect: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    padding: '0.8rem',
+    borderRadius: '6px',
+    color: '#fff',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+  },
+  mockupInputGroup: {
+    marginBottom: '1.5rem',
+  },
+  mockupInput: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    padding: '0.8rem',
+    borderRadius: '6px',
+    color: '#fff',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+  },
+  mockupButton: {
+    backgroundColor: 'rgba(155, 92, 255, 0.8)',
+    color: '#fff',
+    padding: '0.8rem',
+    borderRadius: '6px',
+    textAlign: 'center',
+    fontWeight: '500',
+    boxShadow: '0 2px 8px rgba(155, 92, 255, 0.5)',
+  },
+  featuresSection: {
+    padding: '5rem 2.5rem',
+    backgroundColor: 'rgba(20, 20, 30, 0.7)',
+    backdropFilter: 'blur(10px)',
+    position: 'relative',
+    zIndex: 1,
+  },
+  sectionTitle: {
+    fontSize: '2.5rem',
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: '3rem',
+    color: '#fff',
+    position: 'relative',
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      bottom: '-15px',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      width: '60px',
+      height: '3px',
+      background: 'linear-gradient(to right, rgba(155, 92, 255, 0.7), rgba(255, 255, 255, 0.9))',
+      borderRadius: '3px',
+    },
+  },
+  featuresContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '2rem',
+    maxWidth: '1200px',
+    margin: '0 auto',
+  },
+  featureCard: {
+    backgroundColor: 'rgba(40, 40, 60, 0.8)',
+    borderRadius: '12px',
+    padding: '2rem',
+    flex: '1',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    transition: 'all 0.3s ease',
+    cursor: 'pointer',
+  },
+  featureIcon: {
+    fontSize: '2.5rem',
+    marginBottom: '1rem',
+  },
+  featureTitle: {
+    fontSize: '1.3rem',
+    fontWeight: '600',
+    marginBottom: '1rem',
+    color: '#fff',
+  },
+  featureDescription: {
+    fontSize: '1rem',
+    color: 'rgba(255, 255, 255, 0.7)',
+    lineHeight: '1.6',
+  },
+  platformsSection: {
+    padding: '5rem 2.5rem',
+    position: 'relative',
+    zIndex: 1,
+  },
+  platformsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+    gap: '2rem',
+    maxWidth: '1200px',
+    margin: '0 auto',
+  },
+  platformCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'rgba(40, 40, 60, 0.8)',
+    borderRadius: '12px',
+    padding: '2rem',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      transform: 'translateY(-10px)',
+      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(155, 92, 255, 0.2)',
+    },
+  },
+  platformIcon: {
+    width: '60px',
+    height: '60px',
+    borderRadius: '50%',
+    backgroundColor: 'rgba(155, 92, 255, 0.2)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '1.8rem',
+    fontWeight: 'bold',
+    marginBottom: '1rem',
+    boxShadow: '0 0 20px rgba(155, 92, 255, 0.3)',
+    border: '2px solid rgba(155, 92, 255, 0.5)',
+  },
+  platformName: {
+    fontSize: '1.2rem',
+    fontWeight: '500',
+    color: '#fff',
+  },
+  howItWorksSection: {
+    padding: '5rem 2.5rem',
+    backgroundColor: 'rgba(20, 20, 30, 0.7)',
+    backdropFilter: 'blur(10px)',
+    position: 'relative',
+    zIndex: 1,
+  },
+  stepsContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    maxWidth: '1200px',
+    margin: '0 auto 3rem auto',
+  },
+  step: {
+    flex: '1',
+    textAlign: 'center',
+    padding: '2rem',
+  },
+  stepNumber: {
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
+    backgroundColor: 'rgba(155, 92, 255, 0.8)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '0 auto 1.5rem auto',
+    fontWeight: 'bold',
+    boxShadow: '0 0 20px rgba(155, 92, 255, 0.3)',
+  },
+  stepTitle: {
+    fontSize: '1.3rem',
+    fontWeight: '600',
+    marginBottom: '1rem',
+    color: '#fff',
+  },
+  stepDescription: {
+    fontSize: '1rem',
+    color: 'rgba(255, 255, 255, 0.7)',
+    lineHeight: '1.6',
+  },
+  stepDivider: {
+    width: '80px',
+    height: '2px',
+    backgroundImage: 'linear-gradient(to right, rgba(155, 92, 255, 0.1), rgba(155, 92, 255, 0.8), rgba(155, 92, 255, 0.1))',
+    position: 'relative',
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      top: '50%',
+      right: '-5px',
+      transform: 'translateY(-50%)',
+      width: '10px',
+      height: '10px',
+      backgroundColor: 'rgba(155, 92, 255, 0.8)',
+      borderRadius: '50%',
+    },
+  },
+  ctaContainer: {
+    textAlign: 'center',
+    marginTop: '3rem',
+  },
+  ctaButton: {
+    textDecoration: 'none',
+    color: '#fff',
+    backgroundColor: 'rgba(155, 92, 255, 0.8)',
+    padding: '1rem 2.5rem',
+    borderRadius: '8px',
+    fontWeight: '600',
+    letterSpacing: '0.5px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(155, 92, 255, 0.3)',
+    transition: 'all 0.3s ease',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    backdropFilter: 'blur(8px)',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgba(155, 92, 255, 1)',
+      boxShadow: '0 6px 25px rgba(0, 0, 0, 0.3), 0 0 25px rgba(155, 92, 255, 0.4)',
+      transform: 'translateY(-3px)',
+    },
+  },
+  buttonArrow: {
+    marginLeft: '8px',
+    fontWeight: 'bold',
+    transition: 'transform 0.2s ease',
+  },
+  footer: {
+    backgroundColor: 'rgba(20, 20, 30, 0.9)',
+    backdropFilter: 'blur(10px)',
+    marginTop: '5rem',
+    padding: '3rem 2.5rem',
+  },
+  footerContent: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    maxWidth: '1200px',
+    margin: '0 auto 2rem auto',
+  },
+  footerLogo: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'start',
+    gap: '0.5rem',
+  },
+  footerLogoImage: {
+    height: '40px',
+    width: 'auto',
+  },
+  footerTagline: {
+    fontSize: '0.9rem',
+    color: 'rgba(255, 255, 255, 0.7)',
+  },
+  footerLinks: {
+    display: 'flex',
+    gap: '3rem',
+  },
+  footerColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5rem',
+  },
+  footerColumnTitle: {
+    fontSize: '1rem',
+    fontWeight: '600',
+    marginBottom: '0.5rem',
+  },
+  footerLink: {
+    textDecoration: 'none',
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: '0.9rem',
+    '&:hover': {
+      color: '#fff',
+    },
+  },
+  footerBottom: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    maxWidth: '1200px',
+    margin: '0 auto',
+    alignItems: 'center',
+  },
+  copyright: {
+    fontSize: '0.8rem',
+    color: 'rgba(255, 255, 255, 0.7)',
+  },
+  socialLinks: {
+    display: 'flex',
+    gap: '1rem',
+  },
+  socialLink: {
+    textDecoration: 'none',
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: '0.9rem',
+    '&:hover': {
+      color: '#fff',
+    },
+  },
+};
+
+export default LandingPage;
