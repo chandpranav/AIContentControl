@@ -471,13 +471,120 @@ function Dashboard() {
 
   // PDF download
   const contentRef = useRef(null);
-  const downloadPdf = () => {
-    if (!contentRef.current) return;
-    html2pdf()
-      .from(contentRef.current)
-      .set({ margin: 0.5, filename: `${platform}-${userInterest}-to-${targetInterest}.pdf` })
-      .save();
-  };
+/* Dashboard.js */
+const downloadPdf = () => {
+  const node = document.getElementById('pdf-wrapper');
+  if (!node) { alert('Nothing to print'); return; }
+
+  /* ----------------------------------------
+   * 1)  temporary print-stylesheet
+   * -------------------------------------- */
+  const style = document.createElement('style');
+  style.id = 'print-theme';
+  style.textContent = `
+    #pdf-wrapper,
+    #pdf-wrapper * {
+      background: transparent !important;
+      color: #222 !important;
+    }
+
+    /* page paddings */
+    #pdf-wrapper {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 18mm 15mm;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12mm;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* headline + sub */
+    #pdf-wrapper h1 {
+      flex: 1 0 100%;
+      margin: 0 0 6mm 0;
+      font-size: 24pt;
+      color: #5e56f0 !important;
+    }
+    #pdf-wrapper .date-stamp {
+      flex: 1 0 100%;
+      margin: -4mm 0 8mm 0;
+      font-size: 9pt;
+      color: #666 !important;
+    }
+
+    /* cards — now single-column, never split */
+    #pdf-wrapper .card {
+      flex: 1 0 100%;
+      max-width: 100%;
+      background: #fafafa !important;
+      border: 1px solid #ddd !important;
+      border-radius: 6px;
+      padding: 14pt 16pt;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 8mm;           /* ensure room before next page */
+    }
+    #pdf-wrapper .cardTitle {
+      font-size: 13pt !important;
+      font-weight: 600;
+      margin: 0 0 6pt 0;
+      border-bottom: 1px solid #5e56f0;
+      padding-bottom: 4pt;
+    }
+    #pdf-wrapper li {
+      font-size: 10pt !important;
+      margin-bottom: 5pt;
+      line-height: 1.35;
+    }
+    #pdf-wrapper footer {
+      flex: 1 0 100%;
+      margin-top: 12mm;
+      text-align: center;
+      font-size: 8pt;
+      color: #888 !important;
+    }
+  `;
+  document.head.appendChild(style);
+
+  /* ----------------------------------------
+   * 2)  header   &   footer
+   * -------------------------------------- */
+  const capPlatform = platform.charAt(0).toUpperCase() + platform.slice(1);
+  const header = document.createElement('h1');
+  header.textContent =
+    `Steps to transform your ${capPlatform} algorithm ` +
+    `from "${userInterest}" to "${targetInterest}"`;
+
+  const date = document.createElement('p');
+  date.className = 'date-stamp';
+  date.textContent = 'Generated on ' + new Date().toLocaleDateString();
+
+  const footer = document.createElement('footer');
+  footer.textContent = 'For education purposes only';
+
+  node.prepend(date);
+  node.prepend(header);
+  node.appendChild(footer);
+
+  /* ----------------------------------------
+   * 3)  build PDF
+   * -------------------------------------- */
+  html2pdf()
+    .from(node)
+    .set({
+      margin: 0,                                    // we added our own
+      filename: `${response?.title || 'AI_Recommendations'}.pdf`,
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    })
+    .save()
+    .finally(() => {
+      header.remove(); date.remove(); footer.remove(); style.remove();
+    });
+};
+
+
 
   // Fetch strategy
   const getStrategy = async () => {
@@ -486,13 +593,6 @@ function Dashboard() {
 
     setIsLoading(true);
     setResponse(null);
-
-  //    // Build our structured prompt
-  // const title =
-  // `Shifting ${platform.charAt(0).toUpperCase() + platform.slice(1)} Algorithm ` +
-  // `From ${userInterest.charAt(0).toUpperCase() + userInterest.slice(1)} ` +
-  // `to ${targetInterest.charAt(0).toUpperCase() + targetInterest.slice(1)}`;
-
 
 try {
   const res = await fetch('http://localhost:5000/api/get-strategy', {
@@ -743,7 +843,7 @@ try {
                         </div>
                       </div>
                     ) : (
-                      <div ref={contentRef} style={styles.cardsGrid}>
+                      <div id="pdf-wrapper" ref={contentRef} style={styles.cardsGrid}>
                         {response.sections?.map((sec) => (
                           <div key={sec.name} style={styles.card}>
                             <h4 style={styles.cardTitle}>{sec.name}</h4>
@@ -902,10 +1002,6 @@ try {
                     </form>
                   </div>
     
-                  <div style={styles.accountSection}>
-                    <h3 style={styles.accountSectionTitle}>User Preferences</h3>
-                    <p style={styles.comingSoonText}>Additional account settings coming soon.</p>
-                  </div>
                 </div>
               </div>
             )}

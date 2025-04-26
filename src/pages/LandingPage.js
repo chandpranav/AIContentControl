@@ -125,7 +125,7 @@ function LandingPage() {
               }}>→</span>
             </Link>
             <Link 
-              to="/demo" 
+              to="https://youtu.be/dOPXb4FNGmo" 
               style={styles.secondaryButton}
               onMouseEnter={() => setHoveredButton('secondary')}
               onMouseLeave={() => setHoveredButton(null)}
