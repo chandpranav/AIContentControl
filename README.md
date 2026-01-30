@@ -1,40 +1,169 @@
-# Getting Started with Create React App
+# 🤖 AIContentControl
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**AI-Powered Content Moderation Made Simple**
 
-## Available Scripts
+![Status](https://img.shields.io/badge/status-active-success.svg)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🎯 What Does This Do?
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+AIContentControl is an intelligent content moderation system that uses OpenAI's powerful AI models to automatically analyze and moderate content in real-time. Whether you're managing user-generated content, filtering messages, or ensuring content quality, this tool makes it simple and effective.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### ✨ Key Features
 
-### `npm test`
+- 🧠 **Smart AI Analysis** - Leverages OpenAI's advanced models for accurate content moderation
+- ⚡ **Real-Time Processing** - Get instant results with lightning-fast analysis
+- 🎯 **Easy Setup** - Docker-ready deployment in minutes
+- 🔒 **Secure** - Your API key stays private and secure
+- 🎨 **Modern UI** - Clean, intuitive interface built with React
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🚀 Quick Start (Super Simple!)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+You only need two things:
+1. **Docker** installed on your computer ([Get Docker](https://www.docker.com/get-started))
+2. **OpenAI API Key** ([Get one here](https://platform.openai.com/api-keys))
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Setup in 3 Steps
 
-### `npm run eject`
+#### Step 1️⃣: Get Your OpenAI API Key
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Go to [OpenAI Platform](https://platform.openai.com)
+2. Sign up or log in
+3. Navigate to API Keys section
+4. Create a new API key and copy it
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Step 2️⃣: Clone & Configure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+# Clone the repository
+git clone https://github.com/chandpranav/AIContentControl.git
+cd AIContentControl
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Create your .env file
+echo "OPENAI_API_KEY=your_api_key_here" > .env
+```
+
+**Important:** Replace `your_api_key_here` with your actual OpenAI API key!
+
+#### Step 3️⃣: Run with Docker
+
+```bash
+docker-compose up
+```
+
+That's it! 🎉
+
+Open your browser and go to: **http://localhost**
+
+---
+
+## 🎮 How to Use
+
+1. **Access the App** - Open http://localhost in your browser
+2. **Input Content** - Enter or paste the content you want to moderate
+3. **Get Results** - Receive instant AI-powered analysis
+4. **Take Action** - Use the insights to moderate your content
+
+---
+
+## 🛑 Stopping the Application
+
+To stop the application, press `Ctrl + C` in the terminal, then run:
+
+```bash
+docker-compose down
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### Port Already in Use?
+
+If you get a port conflict error:
+
+```bash
+docker-compose down
+# Change the port in docker-compose.yml if needed
+docker-compose up
+```
+
+### Need to Rebuild?
+
+```bash
+docker-compose down
+docker-compose build --no-cache
+docker-compose up
+```
+
+### API Key Not Working?
+
+- Make sure your `.env` file is in the root directory
+- Check that there are no extra spaces in your API key
+- Verify your OpenAI API key is active and has credits
+
+---
+
+## 📂 Project Structure
+
+```
+AIContentControl/
+├── backend/           # Node.js backend server
+├── src/              # React frontend
+├── docker-compose.yml # Docker configuration
+├── .env              # Your API key (create this!)
+└── README.md         # You are here
+```
+
+---
+
+## 💡 Tips
+
+- **Keep your API key secret!** Never commit your `.env` file to GitHub
+- Monitor your OpenAI usage at [OpenAI Platform](https://platform.openai.com/usage)
+- Check out the logs if something goes wrong: `docker-compose logs`
+
+---
+
+## 🤝 Contributing
+
+Found a bug or want to add a feature? Feel free to:
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is part of a Final Year Project.
+
+---
+
+## 👨‍💻 Author
+
+**Pranav Chand**
+- GitHub: [@chandpranav](https://github.com/chandpranav)
+
+---
+
+## ⭐ Show Your Support
+
+If you find this project helpful, give it a ⭐ on GitHub!
+
+---
+
+## 📞 Need Help?
+
+Open an issue on GitHub if you run into any problems or have questions!
+
+---
+
+**Made with ❤️ for smarter content moderation**
