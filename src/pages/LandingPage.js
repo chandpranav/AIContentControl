@@ -103,7 +103,6 @@ function LandingPage() {
       <div style={styles.heroSection}>
         <div style={styles.heroContent}>
           <h1 style={styles.title}>Transform Your <span style={styles.highlight}>Social Media</span> Experience</h1>
-          {/* <div style={styles.glowBar}></div> */}
           <p style={styles.subtitle}>
             Get AI-powered recommendations to curate your perfect social media experience. 
             Select your platform, describe your current and desired content, 
@@ -323,14 +322,6 @@ const styles = {
     WebkitTextFillColor: 'transparent',
     textShadow: '0 2px 10px rgba(155, 92, 255, 0.3)',
   },
-  glowBar: {
-    height: '3px',
-    width: '80px',
-    margin: '0 0 2rem 0',
-    background: 'linear-gradient(to right, rgba(155, 92, 255, 0.7), rgba(255, 255, 255, 0.9))',
-    borderRadius: '3px',
-    boxShadow: '0 0 10px rgba(155, 92, 255, 0.7)',
-  },
   subtitle: {
     fontSize: '1.2rem',
     lineHeight: '1.8',
@@ -533,71 +524,6 @@ const styles = {
     border: '1px solid rgba(255, 255, 255, 0.2)',
     backdropFilter: 'blur(8px)',
     cursor: 'pointer',
-  },
-  footer: {
-    backgroundColor: 'rgba(20, 20, 30, 0.9)',
-    backdropFilter: 'blur(10px)',
-    marginTop: '5rem',
-    padding: '3rem 2.5rem',
-  },
-  footerContent: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    maxWidth: '1200px',
-    margin: '0 auto 2rem auto',
-  },
-  footerLogo: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'start',
-    gap: '0.5rem',
-  },
-  footerLogoImage: {
-    height: '40px',
-    width: 'auto',
-  },
-  footerTagline: {
-    fontSize: '0.9rem',
-    color: 'rgba(255, 255, 255, 0.7)',
-  },
-  footerLinks: {
-    display: 'flex',
-    gap: '3rem',
-  },
-  footerColumn: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.5rem',
-  },
-  footerColumnTitle: {
-    fontSize: '1rem',
-    fontWeight: '600',
-    marginBottom: '0.5rem',
-  },
-  footerLink: {
-    textDecoration: 'none',
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontSize: '0.9rem',
-  },
-  footerBottom: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    maxWidth: '1200px',
-    margin: '0 auto',
-    alignItems: 'center',
-  },
-  copyright: {
-    fontSize: '0.8rem',
-    color: 'rgba(255, 255, 255, 0.7)',
-  },
-  socialLinks: {
-    display: 'flex',
-    gap: '1rem',
-  },
-  socialLink: {
-    textDecoration: 'none',
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontSize: '0.9rem',
   },
 };
 
