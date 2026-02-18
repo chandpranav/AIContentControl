@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { colors, spacing, borderRadius, shadows, typography, transitions } from '../../styles/theme';
+import { colors, spacing, borderRadius, shadows, typography } from '../../styles/theme';
 import { Button, Input } from '../common';
 
 /**
